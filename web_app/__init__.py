@@ -1,4 +1,4 @@
-# app/__init__.py
+# web_app/__init__.py
 
 # import packages
 import os
@@ -6,20 +6,21 @@ from dotenv import load_dotenv
 from flask import Flask
 
 # Import routes
-from app.models import db, migrate
-from app.routes.flask_app import flask_app
+from web_app.models import db, migrate
+from web_app.routes.flask_app import flask_app
 
 load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 
+# application factory pattern
 def create_app():
     app = Flask(__name__)
 
     # configure the database
     app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False # supress warning messages
     db.init_app(app)
     migrate.init_app(app, db)
 
