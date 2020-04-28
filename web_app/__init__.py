@@ -1,5 +1,9 @@
 # web_app/__init__.py
 
+#
+#> $env:FLASK_APP = "web_app" #> flask run
+#
+
 # import packages
 import os
 from dotenv import load_dotenv
