@@ -8,6 +8,7 @@ db = SQLAlchemy()
 
 migrate = Migrate()
 
+
 def parse_records(database_records):
     """
     A helper method for converting a list of database record objects into a list of dictionaries, so they can be returned as JSON
