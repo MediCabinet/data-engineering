@@ -30,6 +30,9 @@ export FLASK_APP=app # one-time thing, to set the env var
 flask run
 ```
 
-
-
 Heroku URL:
+https://git.heroku.com/medi-cabinet.git
+
+
+DATABASE_URL: 
+ postgres://avturkdysauiih:d2460cb873b3289ac87154e936c3b422d10aa98790d998999eb463f3f05517b3@ec2-52-6-143-153.compute-1.amazonaws.com:5432/d5eip10rjrf4t1
