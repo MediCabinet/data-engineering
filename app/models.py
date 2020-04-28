@@ -20,9 +20,8 @@ class Database(db.Model):
     headaches = db.Column(db.String)
     pain = db.Column(db.String)
     stress = db.Column(db.String)
-    dry eyes
-    dry mouth
-    
+
+
     
 
 
