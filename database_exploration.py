@@ -19,7 +19,7 @@ cursor = connection.cursor()
 print("CURSOR", cursor)
 
 query = """
-SELECT * from database
+SELECT * from strain
     LIMIT 10;
 """
 

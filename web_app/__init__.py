@@ -18,13 +18,14 @@ load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-
 # application factory pattern
 def create_app():
     app = Flask(__name__)
 
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database/database.sqlite3"
+
     # configure the database
-    app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
+    # app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False # supress warning messages
 
     db.init_app(app)
