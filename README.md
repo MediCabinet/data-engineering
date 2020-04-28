@@ -35,6 +35,6 @@ https: // medi - cabinet.herokuapp.com/
 
 
 DATABASE_URL:
-    postgres: // avturkdysauiih: d2460cb873b3289ac87154e936c3b422d10aa98790d998999eb463f3f05517b3@ec2 - 52 - 6 - 143 - 153.compute - 1.amazonaws.com: 5432 / d5eip10rjrf4t1
+postgres://nssinfmkbdjqiv:8c8f6ed0ccef41cd2b9fc0641056770a7fdaec8973bc9f77927b2c9c24092b57@ec2-54-152-175-141.compute-1.amazonaws.com:5432/d4f3qq064sot52
 
 ```
