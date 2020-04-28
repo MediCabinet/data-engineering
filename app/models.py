@@ -8,6 +8,23 @@ db = SQLAlchemy()
 
 migrate = Migrate()
 
+class Database(db.Model):
+    strain_id = db.Column(db.Integer, primary_key=True)
+    happy = db.Column(db.String)
+    hungry = db.Column(db.String)
+    relaxed = db.Column(db.String)
+    sleepy = db.Column(db.String)
+    anxious = db.Column(db.String)
+    depression = db.Column(db.String)
+    fatigue = db.Column(db.String)
+    headaches = db.Column(db.String)
+    pain = db.Column(db.String)
+    stress = db.Column(db.String)
+    dry eyes
+    dry mouth
+    
+    
+
 
 def parse_records(database_records):
     """

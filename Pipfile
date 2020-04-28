@@ -16,6 +16,9 @@ flask = "*"
 flask-sqlalchemy = "*"
 flask-migrate = "*"
 pandas = "*"
+postgresql = "*"
+postgresql-contrib = "*"
+csv-to-sqlite = "*"
 
 [requires]
 python_version = "3.7"
