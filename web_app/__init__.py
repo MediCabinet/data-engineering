@@ -7,7 +7,8 @@ from flask import Flask
 
 # Import routes
 from web_app.models import db, migrate
-from web_app.routes.flask_app import flask_app
+from web_app.routes.home_routes import home_routes
+from web_app.routes.cannabis_routes import cannabis_routes
 
 load_dotenv()
 
@@ -26,7 +27,8 @@ def create_app():
     migrate.init_app(app, db)
 
     # configure routes
-    app.register_blueprint(flask_app)
+    app.register_blueprint(home_routes)
+    app.register_blueprint(cannabis_routes)
 
     return app
 

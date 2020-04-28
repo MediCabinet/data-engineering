@@ -1,5 +1,6 @@
 # web_app/models.py
 
+#> $env:FLASK_APP = "web_app" #> flask run
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
@@ -7,9 +8,9 @@ db = SQLAlchemy()
 migrate = Migrate()
 
 class Strain(db.Model):
-    # id = db.Column(db.Integer, primary_key=True)
-    # strain_name = db.Column(db.String(128), nullable=False)
-    # strain_description = db.Column(db.String(128), nullable=True)
+    id = db.Column(db.Integer, primary_key=True)
+    strain_name = db.Column(db.String(128), nullable=False)
+    strain_description = db.Column(db.String(128), nullable=True)
 
 def parse_records(database_records):
     """
@@ -27,9 +28,11 @@ def parse_records(database_records):
         ]
     """
     parsed_records = []
+
     for record in database_records:
         print(record)
         parsed_record = record.__dict__
         del parsed_record["_sa_instance_state"]
         parsed_records.append(parsed_record)
+
     return parsed_records
