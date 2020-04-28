@@ -9,7 +9,7 @@ migrate = Migrate()
 class Strain(db.Model):
     # id = db.Column(db.Integer, primary_key=True)
     # strain_name = db.Column(db.String(128), nullable=False)
-    # strain_description = db.COlumn(db.String(128), nullable=True)
+    # strain_description = db.Column(db.String(128), nullable=True)
 
 def parse_records(database_records):
     """
