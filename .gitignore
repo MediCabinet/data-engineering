@@ -1,4 +1,3 @@
-*.db
 .env
 Pipfile
 Pipfile.lock
