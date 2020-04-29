@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "52d64a4e734df8a64e184ee1e4d0b9dac57c832df0d23c840ac04e198ab618f2"
+            "sha256": "1baca0918967c857a5151d1a5ce6dda1c7ae305ee20f97c80f9a7996ebd7dc26"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -43,6 +43,13 @@
             ],
             "version": "==7.1.2"
         },
+        "csv-to-sqlite": {
+            "hashes": [
+                "sha256:d67d2f3d41ee9ae1841e40ad6a853855083626f9ae2b10fda50c5927f7803bae"
+            ],
+            "index": "pypi",
+            "version": "==2.1.0"
+        },
         "flask": {
             "hashes": [
                 "sha256:4efa1ae2d7c9865af48986de8aeb8504bf32c7f3d6fdc9353d34b21f4b127060",
@@ -50,6 +57,14 @@
             ],
             "index": "pypi",
             "version": "==1.1.2"
+        },
+        "flask-cors": {
+            "hashes": [
+                "sha256:72170423eb4612f0847318afff8c247b38bd516b7737adfc10d1c2cdbb382d16",
+                "sha256:f4d97201660e6bbcff2d89d082b5b6d31abee04b1b3003ee073a6fd25ad1d69a"
+            ],
+            "index": "pypi",
+            "version": "==3.0.8"
         },
         "flask-migrate": {
             "hashes": [
@@ -172,6 +187,7 @@
                 "sha256:eb2286249ebfe8fcb5b425e5ec77e4736d53ee56d3ad296f8947f67150f495e3",
                 "sha256:fdee7540d12519865b423af411bd60ddb513d2eb2cd921149b732854995bbf8b"
             ],
+            "index": "pypi",
             "version": "==1.18.3"
         },
         "pandas": {
@@ -257,10 +273,10 @@
         },
         "pytz": {
             "hashes": [
-                "sha256:1c557d7d0e871de1f5ccd5833f60fb2550652da6be2693c1e02300743d21500d",
-                "sha256:b02c06db6cf09c12dd25137e563b31700d3b80fcc4ad23abb7a315f2789819be"
+                "sha256:a494d53b6d39c3c6e44c3bec237336e14305e4f29bbf800b599253057fbb79ed",
+                "sha256:c35965d010ce31b23eeb663ed3cc8c906275d6be1a34393a1d73a41febf4a048"
             ],
-            "version": "==2019.3"
+            "version": "==2020.1"
         },
         "requests": {
             "hashes": [
@@ -321,6 +337,7 @@
                 "sha256:dc60bb302f48acf6da8ca4444cfa17d52c63c5415302a9ee77b3b21618090521",
                 "sha256:dee1bbf3a6c8f73b6b218cb28eed8dd13347ea2f87d572ce19b289d6fd3fbc59"
             ],
+            "index": "pypi",
             "version": "==1.4.1"
         },
         "six": {
