@@ -31,7 +31,7 @@ columns = ['anxious', 'dizzy', 'dry eyes', 'dry mouth', 'headache', 'paranoid', 
            'euphoric', 'focused', 'happy', 'hungry', 'relaxed', 'sleepy', 'anxiety', 'depression', 'fatigue',
            'headaches', 'lack of appetite', 'pain', 'stress']
 
-@request_routes.route("/recommend")
+@recommend_routes.route("/recommend")
 def recommend(request: dict, n: int = 10):
     """
     creates list with top n recommended strains.
