@@ -31,6 +31,7 @@ columns = ['anxious', 'dizzy', 'dry eyes', 'dry mouth', 'headache', 'paranoid', 
            'euphoric', 'focused', 'happy', 'hungry', 'relaxed', 'sleepy', 'anxiety', 'depression', 'fatigue',
            'headaches', 'lack of appetite', 'pain', 'stress']
 
+
 @recommend_routes.route("/recommend")
 def recommend(request: dict, n: int = 10):
     """
@@ -113,16 +114,14 @@ def recommend(request: dict, n: int = 10):
         for index in points:
             list_strains.append(index)
 
-    return jsonify(list_strains[:n])
+    return list_strains[:n]
+
+
+# TEST endpoint ## to test comment function above, and uncomment below
+# @recommend_routes.route("/recommend")
+# def recommend():
+#     return jsonify("Something goes here")
+
 
     
-# TEST
-request = json.dumps(
-    {
-        "effects": ["happy", "euphoric", "creative", "junk"],
-        "ailments": ["anxiety", "depression", "pain"],
-        "negatives": ["dry mouth", "paranoid", "dizzy"]
-    }
-)
 
-recommend(request, 5)
