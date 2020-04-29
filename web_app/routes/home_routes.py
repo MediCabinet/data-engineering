@@ -16,14 +16,34 @@ def index():
 #     base_response = parse_records(db_base)
 #     return jsonify(base_response)
 
-@home_routes.route("/strain")
+# @home_routes.route("/strain/<int:n>")
 # def strain():
-#     records = parse_records(Strain.query.all())
+#     records = parse_records(Strain.query.filter(Strain.strain_id == n).all())
 #     return jsonify(records)
 
-def strain():
-    query = Strain.query.all()
-    return 
+@home_routes.route("/strain/<int:n>")
+def strain_single(n=None):
+    records = parse_records(Strain.query.filter(Strain.strain_id == n).all())
+    return jsonify(records)
+
+
+
+
+
+@home_routes.route("/strain/<list>")
+def strain_list(list):
+
+    list = [3534,3536,3538,3554]
+    records = []
+
+    for i in list:
+        records.append(parse_records(Strain.query.filter(Strain.strain_id == i).all()))
+
+    return jsonify(records)
+
+# def strain():
+#     query = Strain.query.all()
+#     return query
 
 # \@home_routes.route("/strain")
 # def strain():

@@ -57,15 +57,6 @@ class Strain(db.Model):
     type = db.Column(db.String(8), nullable=False)
     rating = db.Column(db.Float, nullable=False)
     
-    def __repr__(self):
-        output = {
-            'id':self.strain_id, 'name':self.name, 'type':self.type, 'rating':self.rating
-        }
-        return output
-    
-    def __str__(self):
-        return self.__repr__()
-    
     
     
     
