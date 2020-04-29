@@ -40,6 +40,17 @@ class Strain(db.Model):
     rating = db.Column(db.Integer)
     
 
+class Template(db.Model):
+    """Template database class"""
+    strain_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    type = db.Column(db.String, nullable=False)
+    rating = db.Column(db.Integer, nullable=False)
+    effects = db.Column(db.String, nullable=False)
+    flavor = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=False)
+
+
 def parse_records(database_records):
     """
     A helper method for converting a list of database record objects into a list of dictionaries, so they can be returned as JSON

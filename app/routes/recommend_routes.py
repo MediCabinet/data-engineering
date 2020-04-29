@@ -6,7 +6,7 @@ import json
 import pandas as pd
 from flask import Blueprint, jsonify
 
-from app.models import db, Base, Strain, parse_records
+from app.models import db, Base, Strain, parse_records, Template
 
 recommend_routes = Blueprint("recommend_routes", __name__)
 
@@ -30,6 +30,13 @@ ailment_list = ['anxiety', 'depression', 'fatigue',
 columns = ['anxious', 'dizzy', 'dry eyes', 'dry mouth', 'headache', 'paranoid', 'creative', 'energetic',
            'euphoric', 'focused', 'happy', 'hungry', 'relaxed', 'sleepy', 'anxiety', 'depression', 'fatigue',
            'headaches', 'lack of appetite', 'pain', 'stress']
+
+
+@recommend_routes.route("/template")
+def template():
+    db_template = Template.query.all()
+    template_response = parse_records(db_template)
+    return jsonify(template_response)
 
 
 @recommend_routes.route("/recommend")
@@ -121,7 +128,4 @@ def recommend(request: dict, n: int = 10):
 # @recommend_routes.route("/recommend")
 # def recommend():
 #     return jsonify("Something goes here")
-
-
-    
 
