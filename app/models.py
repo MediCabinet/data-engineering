@@ -8,6 +8,37 @@ db = SQLAlchemy()
 
 migrate = Migrate()
 
+class Base(db.Model):
+    strain_id = db.Column(db.Integer, primary_key=True)
+    stress = db.Column(db.Integer)
+    pain = db.Column(db.Integer)
+    lack_of_appetite = db.Column(db.Integer)
+    headaches = db.Column(db.Integer)
+    fatigue = db.Column(db.Integer)
+    depression = db.Column(db.Integer)
+    anxiety = db.Column(db.Integer)
+    sleepy = db.Column(db.Integer)
+    relaxed = db.Column(db.Integer)
+    hungry = db.Column(db.Integer)
+    happy = db.Column(db.Integer)
+    focused = db.Column(db.Integer)
+    euphoric = db.Column(db.Integer)
+    energetic = db.Column(db.Integer)
+    creative = db.Column(db.Integer)
+    paranoid = db.Column(db.Integer)
+    headache = db.Column(db.Integer)
+    dry_mouth = db.Column(db.Integer)
+    dry_eyes = db.Column(db.Integer)
+    dizzy = db.Column(db.Integer)
+    anxious = db.Column(db.Integer)
+    
+
+class Strain(db.Model):
+    strain_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    type = db.Column(db.String)
+    rating = db.Column(db.Integer)
+    
 
 def parse_records(database_records):
     """
