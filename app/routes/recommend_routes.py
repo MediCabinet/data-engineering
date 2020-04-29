@@ -8,7 +8,7 @@ from flask import Blueprint, jsonify
 
 from app.models import db, Base, Strain, parse_records
 
-request_routes = Blueprint("request_routes", __name__)
+recommend_routes = Blueprint("recommend_routes", __name__)
 
 # open pickle with trained model
 with open('./data/model_pickle', 'rb') as f:
@@ -116,4 +116,13 @@ def recommend(request: dict, n: int = 10):
     return jsonify(list_strains[:n])
 
     
-    
+# TEST
+request = json.dumps(
+    {
+        "effects": ["happy", "euphoric", "creative", "junk"],
+        "ailments": ["anxiety", "depression", "pain"],
+        "negatives": ["dry mouth", "paranoid", "dizzy"]
+    }
+)
+
+recommend(request, 5)
