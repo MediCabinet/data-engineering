@@ -19,6 +19,8 @@ pandas = "*"
 postgresql = "*"
 postgresql-contrib = "*"
 csv-to-sqlite = "*"
+scipy = "*"
+numpy = "*"
 
 [requires]
 python_version = "3.7"

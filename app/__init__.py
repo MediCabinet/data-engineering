@@ -8,6 +8,7 @@ from flask import Flask
 # Import routes
 from app.models import db, migrate
 from app.routes.flask_app import flask_app
+from app.routes.recommend_routes import recommend_routes
 
 load_dotenv()
 
@@ -26,6 +27,7 @@ def create_app():
 
     # configure routes
     app.register_blueprint(flask_app)
+    app.register_blueprint(recommend_routes)
 
     return app
 
