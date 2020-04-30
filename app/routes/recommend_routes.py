@@ -39,14 +39,14 @@ def template():
     return jsonify(template_response)
 
 
-@recommend_routes.route("/recommend")
-def recommend(request: dict, n: int = 10):
+@recommend_routes.route("/recommend", methods=['GET', 'POST'])
+def recommend():
     """
     creates list with top n recommended strains.
-    
+
     Paramaters
     __________
-    
+
     request: dictionary (json object)
         list of user's desired effects listed in order of user ranking.
         {
@@ -56,13 +56,14 @@ def recommend(request: dict, n: int = 10):
         }
     n: int, optional
         number of recommendations to return, default 10.
-        
-    Returns 
+
+    Returns
     _______
-    
+
     list_strains: python list of n recommended strains.
     """
-    desired_dict = json.loads(request)
+    desired_dict = request.json
+    n = 10
     effects, negatives, ailments = (
         desired_dict.get("effects"),
         desired_dict.get("negatives"),
@@ -73,23 +74,58 @@ def recommend(request: dict, n: int = 10):
     ailments = [ailment.lower() for ailment in ailments]
 
     for index, effect in enumerate(effects):
-        if effect in columns:
+       if effect in columns:
             effects[index] = columns.index(effect)
 
     for index, negative in enumerate(negatives):
-        if negative in columns:
+       if negative in columns:
             negatives[index] = columns.index(negative)
 
     for index, ailment in enumerate(ailments):
-        if ailment in columns:
+       if ailment in columns:
             ailments[index] = columns.index(ailment)
 
     vector = [
-        0 for _ in range(len(columns))
-    ]
+       0 for _ in range(len(columns))
+       ]
 
     weight = 100
 
+    for index in effects:
+       if isinstance(index, int):
+            vector[index] = weight
+            weight *= .8
+            weight = int(weight)
+
+    weight = 100
+
+    for index in negatives:
+       if isinstance(index, int):
+            vector[index] = weight
+            weight *= .8
+            weight = int(weight)
+
+    weight = 100
+
+    for index in ailments:
+       if isinstance(index, int):
+            vector[index] = weight
+            weight *= .8
+            weight = int(weight)
+
+    data = numpy.array(vector)
+    request_series = pd.Series(data, index=columns)
+    distance, neighbors = nn.kneighbors([request_series])
+
+    list_strains = []
+    for points in neighbors:
+        for index in points:
+            list_strains.append(index)
+    result = [
+        {"id": str(val)}
+        for val in list_strains[:n]
+    ]
+    return jsonify(result)
     for index in effects:
         if isinstance(index, int):
             vector[index] = weight
@@ -121,11 +157,9 @@ def recommend(request: dict, n: int = 10):
         for index in points:
             list_strains.append(index)
 
-    return list_strains[:n]
-
-
-# TEST endpoint ## to test comment function above, and uncomment below
-# @recommend_routes.route("/recommend")
-# def recommend():
-#     return jsonify("Something goes here")
-
+    recommended = strains_df.iloc[list_strains].head(n)
+    result = {
+        "errors": ", ".join(error_messages),
+        "strains": recommended.to_dict("records")
+    }
+    return json.dumps(result)
