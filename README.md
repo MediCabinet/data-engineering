@@ -198,12 +198,12 @@ Flask API functionality was verified using Postman.
 ## Links:
 *[MediCabinet](https://github.com/MediCabinet)
 
-    *[Marketing](https://github.com/MediCabinet/marketing)
+*[Marketing](https://github.com/MediCabinet/marketing)
 
-    *[ML-Engineering](https://github.com/MediCabinet/ml-engineering)
+*[ML-Engineering](https://github.com/MediCabinet/ml-engineering)
 
-    *[Data-Engineering](https://github.com/MediCabinet/data-engineering)
+*[Data-Engineering](https://github.com/MediCabinet/data-engineering)
 
-    *[Front-End](https://github.com/MediCabinet/front-end)
+*[Front-End](https://github.com/MediCabinet/front-end)
 
-    *[Back-End](https://github.com/MediCabinet/backend)
+*[Back-End](https://github.com/MediCabinet/backend)
