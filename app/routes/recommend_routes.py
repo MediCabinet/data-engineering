@@ -6,7 +6,7 @@ import json
 import pandas as pd
 from flask import Blueprint, jsonify, request, render_template
 
-from app.models import db, parse_records, Cabinet
+from app.models import Cabinet, db, parse_records
 
 recommend_routes = Blueprint("recommend_routes", __name__)
 
@@ -27,9 +27,28 @@ effect_list = ['creative', 'energetic', 'euphoric',
 ailment_list = ['anxiety', 'depression', 'fatigue',
                 'headaches', 'lack of appetite', 'pain', 'stress']
 
-columns = ['anxious', 'dizzy', 'dry eyes', 'dry mouth', 'headache', 'paranoid', 'creative', 'energetic',
-           'euphoric', 'focused', 'happy', 'hungry', 'relaxed', 'sleepy', 'anxiety', 'depression', 'fatigue',
-           'headaches', 'lack of appetite', 'pain', 'stress']
+columns = [
+    'anxious',
+    'dizzy',
+    'dry eyes',
+    'dry mouth',
+    'headache',
+    'paranoid',
+    'creative',
+    'energetic',
+    'euphoric',
+    'focused',
+    'happy',
+    'hungry',
+    'relaxed',
+    'sleepy',
+    'anxiety',
+    'depression',
+    'fatigue',
+    'headaches',
+    'lack of appetite',
+    'pain',
+    'stress']
 
 
 @recommend_routes.route("/cabinet")
@@ -39,14 +58,14 @@ def cabinet():
     return jsonify(cabinet_response)
 
 
-@recommend_routes.route("/recommend", methods=['GET', 'POST'])
+@recommend_routes.route("/recommend", methods = ["POST"])
 def recommend():
     """
     creates list with top n recommended strains.
-
+    
     Paramaters
     __________
-
+    
     request: dictionary (json object)
         list of user's desired effects listed in order of user ranking.
         {
@@ -56,14 +75,14 @@ def recommend():
         }
     n: int, optional
         number of recommendations to return, default 10.
-
-    Returns
+        
+    Returns 
     _______
-
+    
     list_strains: python list of n recommended strains.
     """
     desired_dict = request.json
-    n = 10
+    n=10
     effects, negatives, ailments = (
         desired_dict.get("effects"),
         desired_dict.get("negatives"),
@@ -74,58 +93,23 @@ def recommend():
     ailments = [ailment.lower() for ailment in ailments]
 
     for index, effect in enumerate(effects):
-       if effect in columns:
+        if effect in columns:
             effects[index] = columns.index(effect)
 
     for index, negative in enumerate(negatives):
-       if negative in columns:
+        if negative in columns:
             negatives[index] = columns.index(negative)
 
     for index, ailment in enumerate(ailments):
-       if ailment in columns:
+        if ailment in columns:
             ailments[index] = columns.index(ailment)
 
     vector = [
-       0 for _ in range(len(columns))
-       ]
-
-    weight = 100
-
-    for index in effects:
-       if isinstance(index, int):
-            vector[index] = weight
-            weight *= .8
-            weight = int(weight)
-
-    weight = 100
-
-    for index in negatives:
-       if isinstance(index, int):
-            vector[index] = weight
-            weight *= .8
-            weight = int(weight)
-
-    weight = 100
-
-    for index in ailments:
-       if isinstance(index, int):
-            vector[index] = weight
-            weight *= .8
-            weight = int(weight)
-
-    data = numpy.array(vector)
-    request_series = pd.Series(data, index=columns)
-    distance, neighbors = nn.kneighbors([request_series])
-
-    list_strains = []
-    for points in neighbors:
-        for index in points:
-            list_strains.append(index)
-    result = [
-        {"id": str(val)}
-        for val in list_strains[:n]
+        0 for _ in range(len(columns))
     ]
-    return jsonify(result)
+
+    weight = 100
+
     for index in effects:
         if isinstance(index, int):
             vector[index] = weight
@@ -157,9 +141,83 @@ def recommend():
         for index in points:
             list_strains.append(index)
 
-    recommended = strains_df.iloc[list_strains].head(n)
-    result = {
-        "errors": ", ".join(error_messages),
-        "strains": recommended.to_dict("records")
-    }
-    return json.dumps(result)
+    return_list = [
+        int(val)
+        for val in list_strains
+    ]
+    
+    records = []
+    
+    for val in return_list:
+        records.append(parse_records(Cabinet.query.filter(Cabinet.model_id == val).all()))
+
+    return jsonify(records)
+
+
+
+    # return jsonify(return_list)
+
+    # return jsonify(return_list) #> expected answer
+
+"""
+    records = []
+
+    for val in list_strains:
+        records.append(parse_records(Cabinet.query.filter(Cabinet.model_id == val).all()))
+
+    return jsonify(records)
+"""
+
+    # return jsonify(result)
+    
+"""
+    # def id_dictionary():
+    
+    
+    #     query_list
+    
+    # dictionary = []
+    
+    # for val in list_strains:
+    #      dictionary.append.parse_records(Cabinet.query.filter(Cabinet.model_id == val).all())
+    #  return jsonify(list_strains)
+    
+    # print('Hello something world?')
+    
+    # return jsonify(result)
+
+
+@APP.route('/refresh')
+def refresh():
+    # Pull fresh data from Open AQ and replace existing data.
+    DB.drop_all()
+    DB.create_all()
+    for i in value_list(city='Los Angeles', parameter='pm25'):
+        query = Record(datetime = i[0], value = i[1])
+        DB.session.add(query)
+        DB.session.commit()
+    return render_template("refresh.html")
+    # return 'Refresh route sanity'
+
+def value_list(city='Los Angeles', parameter='pm25'):
+
+    # list of (utc_datetime, value) tuples
+    status, body = api.measurements(city='Los Angeles', parameter='pm25')
+
+    query_list = []
+
+    for i in body['results']:
+        i['date']['utc']
+        utc_time = i['date']['utc']
+        value = i['value']
+        query_list.append(tuple((utc_time,value)))
+
+    return query_list
+
+
+# def model_id_list():
+#     for val in list_strains:
+#         value = val[1]
+
+#     return value
+"""

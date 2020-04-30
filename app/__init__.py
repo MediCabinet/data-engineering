@@ -1,13 +1,17 @@
 # app/__init__.py
 
+#
+#> $env:FLASK_APP = "app" #> flask run
+#
+
 # import packages
 import os
 from dotenv import load_dotenv
 from flask import Flask
-from flask_cors import CORS
+# from flask_cors import CORS
 
 # Import routes
-from app.models import db, migrate
+from app.models import Cabinet, db, migrate
 from app.routes.flask_app import flask_app
 from app.routes.recommend_routes import recommend_routes
 
@@ -18,11 +22,11 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 
 def create_app():
     app = Flask(__name__)
-    CORS(app)
+    # CORS(app)
 
     #app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////mnt/c/Github/MediCabinet/data-engineering/database.sqlite3"
     # configure the database
-    app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database/database.sqlite3"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
     migrate.init_app(app, db)
