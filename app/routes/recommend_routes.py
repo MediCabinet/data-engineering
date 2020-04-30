@@ -27,9 +27,28 @@ effect_list = ['creative', 'energetic', 'euphoric',
 ailment_list = ['anxiety', 'depression', 'fatigue',
                 'headaches', 'lack of appetite', 'pain', 'stress']
 
-columns = ['anxious', 'dizzy', 'dry eyes', 'dry mouth', 'headache', 'paranoid', 'creative', 'energetic',
-           'euphoric', 'focused', 'happy', 'hungry', 'relaxed', 'sleepy', 'anxiety', 'depression', 'fatigue',
-           'headaches', 'lack of appetite', 'pain', 'stress']
+columns = [
+    'anxious',
+    'dizzy',
+    'dry eyes',
+    'dry mouth',
+    'headache',
+    'paranoid',
+    'creative',
+    'energetic',
+    'euphoric',
+    'focused',
+    'happy',
+    'hungry',
+    'relaxed',
+    'sleepy',
+    'anxiety',
+    'depression',
+    'fatigue',
+    'headaches',
+    'lack of appetite',
+    'pain',
+    'stress']
 
 
 @recommend_routes.route("/cabinet")
@@ -74,25 +93,25 @@ def recommend():
     ailments = [ailment.lower() for ailment in ailments]
 
     for index, effect in enumerate(effects):
-       if effect in columns:
+        if effect in columns:
             effects[index] = columns.index(effect)
 
     for index, negative in enumerate(negatives):
-       if negative in columns:
+        if negative in columns:
             negatives[index] = columns.index(negative)
 
     for index, ailment in enumerate(ailments):
-       if ailment in columns:
+        if ailment in columns:
             ailments[index] = columns.index(ailment)
 
     vector = [
-       0 for _ in range(len(columns))
-       ]
+        0 for _ in range(len(columns))
+    ]
 
     weight = 100
 
     for index in effects:
-       if isinstance(index, int):
+        if isinstance(index, int):
             vector[index] = weight
             weight *= .8
             weight = int(weight)
@@ -100,7 +119,7 @@ def recommend():
     weight = 100
 
     for index in negatives:
-       if isinstance(index, int):
+        if isinstance(index, int):
             vector[index] = weight
             weight *= .8
             weight = int(weight)
@@ -108,7 +127,7 @@ def recommend():
     weight = 100
 
     for index in ailments:
-       if isinstance(index, int):
+        if isinstance(index, int):
             vector[index] = weight
             weight *= .8
             weight = int(weight)
@@ -159,7 +178,6 @@ def recommend():
 
     recommended = strains_df.iloc[list_strains].head(n)
     result = {
-        "errors": ", ".join(error_messages),
         "strains": recommended.to_dict("records")
     }
     return json.dumps(result)

@@ -31,5 +31,3 @@ def about():
 #     db_strain = Strain.query.all()
 #     strain_response = parse_records(db_strain)
 #     return jsonify(strain_response)
-
-
