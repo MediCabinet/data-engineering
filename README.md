@@ -91,24 +91,17 @@ heroku run "FLASK_APP=app flask db upgrade"
 
 ### Raw data output
 
-There are 3 endpoints returning raw tables from the postgreSQL DB:
+Endpoint returning raw tables from the postgreSQL DB:
 
-    /base # raw output from base table
-
-    /strain # raw output from strain table
-
-    /template # raw output from template 
+    /cabinet # raw output from cabinet table
 
 **Parameters:** None
 
 **Returns:** JSON array containing available strain information
 
 Example: ```sh
-https://medi-cabinet.herokuapp.com/base 
-
-https://medi-cabinet.herokuapp.com/strain 
-
-https://medi-cabinet.herokuapp.com/template```
+https://medi-cabinet.herokuapp.com/cabinet 
+```
 
 
 ### Recommended Strains
@@ -165,6 +158,32 @@ Example:
 ]
 ```
 
+## Model
+
+Machine Learning model to recommend cannabis strains based on user input.
+
+FUll documentation and data and source files on the model can be found here:
+[ml-engineering](https://github.com/MediCabinet/ml-engineering)
+
+### DATA
+Sources:
+* [Kushy API](https://raw.githubusercontent.com/kushyapp/cannabis-dataset/master/Dataset/Strains/strains-kushy_api.2017-11-14.csv)
+    * Provides chemical composition of strains
+* [Kaggle/Leafly](https://www.kaggle.com/kingburrito666/cannabis-strains)
+    * Provides strain name, type, rating, effects, taste, and description
+* Data Scraped from [Leafly](leafly.com)
+    * Provides a rating for each strain regarding specific ailments, negative side effects, and postive effects a user may want to take into account
+
+### MACHINE LEARNING MODEL
+K-Nearest-Neighbor model takes a pandas series holding user input regarding their cannabis strain preferences and what is most important to them, and outputs a list of its nearest neighbors - most similar strains.
+
+Inputs: 
+ * Type of strain a user is looking for (hybrid, indica, sativa)
+ * Desired effects (creative, energetic, euphoric, focused, happy, hungry)
+ * Ailments they may be looking for relief from (anxiety, depression, fatigue, headaches, lack of appetite, pain, stress)
+ * Negative side effects they are trying to avoid (anxious, dizzy, dry eyes, dry mouth, headache, paranoid)
+
+
 ### Testing
 
 ```
@@ -176,3 +195,17 @@ TODO
 [Product Vision Document](https://docs.google.com/document/d/1PNvyYa1qH1uxq-YKAhYnAPhT5jSBBE3XgYDzgQpFIUE/edit#heading=h.p0mtiic9v46n)
 
 [Med Cabinet Project Pitch and Rubrics](https://www.notion.so/Med-Cabinet-7960b90bb485430483bb266f7b738308)
+
+
+## Links:
+*[MediCabinet](https://github.com/MediCabinet)
+
+    *[Marketing](https://github.com/MediCabinet/marketing)
+
+    *[ML-Engineering](https://github.com/MediCabinet/ml-engineering)
+
+    *[Data-Engineering](https://github.com/MediCabinet/data-engineering)
+
+    *[Front-End](https://github.com/MediCabinet/front-end)
+
+    *[Back-End](https://github.com/MediCabinet/backend)
