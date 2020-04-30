@@ -178,7 +178,6 @@ def recommend():
 
     recommended = strains_df.iloc[list_strains].head(n)
     result = {
-        "errors": ", ".join(error_messages),
         "strains": recommended.to_dict("records")
     }
     return json.dumps(result)
