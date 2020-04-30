@@ -138,14 +138,14 @@ def recommend():
     request_series = pd.Series(data, index=columns)
     distance, neighbors = nn.kneighbors([request_series])
 
-    # list_strains = []
-    # for points in neighbors:
-    #     for index in points:
-    #         list_strains.append(index)
-    # result = [
-    #     {"id": str(val)}
-    #     for val in list_strains[:n]
-    # ]
+    list_strains = []
+    for points in neighbors:
+        for index in points:
+            list_strains.append(index)
+    result = [
+        {"id": str(val)}
+        for val in list_strains[:n]
+    ]
     return jsonify(result)
     # list_strains = []
     # for points in neighbors:
