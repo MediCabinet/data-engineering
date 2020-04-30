@@ -1,0 +1,50 @@
+<!-- web_app/templates/model_form.html -->
+
+
+{% extends "layout.html" %}
+
+{% block content %}
+    <h2>User Input</h2>
+
+    <p>Recommendation Form</p>
+
+    <form action="/recommend/output" method="POST">
+        <fieldset>      
+            <legend>Effects List</legend>      
+            <input type="checkbox" name="effect_list" value="creative">Creative<br>      
+            <input type="checkbox" name="effect_list" value="energetic">Energetic<br>
+            <input type="checkbox" name="effect_list" value="euphoric">Euphoric<br> 
+            <input type="checkbox" name="effect_list" value="focused">Focused<br> 
+            <input type="checkbox" name="effect_list" value="happy">Happy<br> 
+            <input type="checkbox" name="effect_list" value="hungry">Hungry<br> 
+            <input type="checkbox" name="effect_list" value="relaxed">Relaxed<br> 
+            <input type="checkbox" name="effect_list" value="sleepy">Sleepy<br> 
+        </fieldset>
+        <br>
+        
+        <fieldset>      
+            <legend>Ailments List</legend>      
+            <input type="checkbox" name="ailment_list" value="anxiety">Anxiety<br>      
+            <input type="checkbox" name="ailment_list" value="depression">Depression<br>      
+            <input type="checkbox" name="ailment_list" value="fatigue">Fatigue<br>
+            <input type="checkbox" name="ailment_list" value="headaches">Headaches<br>
+            <input type="checkbox" name="ailment_list" value="lack_of_appetite">Lack_of_appetite<br> 
+            <input type="checkbox" name="ailment_list" value="pain">Pain<br> 
+            <input type="checkbox" name="ailment_list" value="stress">Stress<br> 
+        </fieldset>
+        <br>
+
+        <fieldset>      
+            <legend>Negative List</legend>      
+            <input type="checkbox" name="negative_list" value="anxious">Anxious<br>
+            <input type="checkbox" name="negative_list" value="dizzy">Dizzy<br>    
+            <input type="checkbox" name="negative_list" value="dry_eyes">Dry Eyes<br>      
+            <input type="checkbox" name="negative_list" value="dry_mouth">Dry Mouth<br>
+            <input type="checkbox" name="negative_list" value="headache">Headache<br>
+            <input type="checkbox" name="negative_list" value="paranoid">Paranoid<br> 
+        </fieldset>
+        <br>
+
+        <button>Submit</button>
+    </form>
+{% endblock %}

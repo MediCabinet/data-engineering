@@ -3,12 +3,14 @@
 # import packages
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+import pandas as pd
 
 db = SQLAlchemy()
-
 migrate = Migrate()
 
+
 class Base(db.Model):
+    """Base database class"""
     strain_id = db.Column(db.Integer, primary_key=True)
     stress = db.Column(db.Integer)
     pain = db.Column(db.Integer)
@@ -31,13 +33,25 @@ class Base(db.Model):
     dry_eyes = db.Column(db.Integer)
     dizzy = db.Column(db.Integer)
     anxious = db.Column(db.Integer)
-    
+
 
 class Strain(db.Model):
+    """Strain database class"""
     strain_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     type = db.Column(db.String)
     rating = db.Column(db.Integer)
+    
+    
+class Template(db.Model):
+    """Template database class"""
+    strain_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    type = db.Column(db.String, nullable=False)
+    rating = db.Column(db.Integer, nullable=False)
+    effects = db.Column(db.String, nullable=False)
+    flavor = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=False)
     
 
 def parse_records(database_records):

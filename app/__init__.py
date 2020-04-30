@@ -8,6 +8,7 @@ from flask import Flask
 # Import routes
 from app.models import db, migrate
 from app.routes.flask_app import flask_app
+from app.routes.recommend_routes import recommend_routes
 
 load_dotenv()
 
@@ -19,13 +20,14 @@ def create_app():
 
     #app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////mnt/c/Github/MediCabinet/data-engineering/database.sqlite3"
     # configure the database
-    app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.sqlite3"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
     migrate.init_app(app, db)
 
     # configure routes
     app.register_blueprint(flask_app)
+    app.register_blueprint(recommend_routes)
 
     return app
 
