@@ -31,7 +31,11 @@ flask run
 
 
 Heroku URL:
-https: // medi - cabinet.herokuapp.com/
+https://medi-cabinet.herokuapp.com/base # raw output from base table
+https://medi-cabinet.herokuapp.com/strain # raw output from strain table
+https://medi-cabinet.herokuapp.com/template # raw output from template table
+https://medi-cabinet.herokuapp.com/recommend # predictions output from model. This is the enpoint you need to hit with that json object.
+
 
 
 DATABASE_URL:

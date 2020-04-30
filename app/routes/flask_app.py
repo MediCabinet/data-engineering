@@ -1,7 +1,7 @@
 # app/routes/flask_app.py
 
 # import packages
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request, render_template
 from app.models import db, Base, Strain, parse_records
 
 

@@ -4,7 +4,7 @@ from sklearn.neighbors import NearestNeighbors
 import numpy
 import json
 import pandas as pd
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request, render_template
 
 from app.models import db, Base, Strain, parse_records, Template
 
