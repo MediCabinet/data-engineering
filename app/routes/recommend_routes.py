@@ -58,7 +58,7 @@ def cabinet():
     return jsonify(cabinet_response)
 
 
-@recommend_routes.route("/recommend", methods = ["POST"])
+@recommend_routes.route("/recommend", methods = ["GET", "POST"])
 def recommend():
     """
     creates list with top n recommended strains.
@@ -82,7 +82,7 @@ def recommend():
     list_strains: python list of n recommended strains.
     """
     desired_dict = request.json
-    n=10
+    n=5
     effects, negatives, ailments = (
         desired_dict.get("effects"),
         desired_dict.get("negatives"),
@@ -109,7 +109,7 @@ def recommend():
     ]
 
     weight = 100
-
+    
     for index in effects:
         if isinstance(index, int):
             vector[index] = weight
@@ -148,76 +148,135 @@ def recommend():
     
     records = []
     
-    for val in return_list:
+    for val in return_list[:n]:
         records.append(parse_records(Cabinet.query.filter(Cabinet.model_id == val).all()))
+    output = []
+    if sum([len(rl) for rl in records]) > 0:
+        for rl in records:
+            if len(rl) > 0:
+                print(len(rl))
+                output.append([r for r in rl])
+        return jsonify(output)
+    else:
+        return jsonify("NULL")
+
+    
+    # return jsonify(records)
+    
+    """
+        def get_strain(ids, size):
+        # Create an empty dictionary to return
+        results = {}
+
+        # Loop through all IDs recieved from the predict function in search()
+        for x,index in zip(ids, range(0,size)):
+            # Create a base result with {"id":"x"} where x is the current strain index
+            sub_result = {"id":str(x)}
+            # Query the database for the strain index and add it to the dict
+            sub_result['data'] = Strain.query.filter(Strain.index==int(x)).first().__repr__()
+            # Add the sub_result to the main results dictionary
+            results['{}'.format(index)] = sub_result
+
+        # Return the results in a dictionary
+        return results
+    """
+    
+    
+    
+    
+    
+    """
+    
+    records = parse_records(Cabinet.query.filter(Cabinet.model_id == (2,3)))
+
+    
+
+    for val in return_list[:n]:
+        records.append(parse_records(Cabinet.query.filter(Cabinet.model_id == [val]).all()))
+
+    
+
+    output = []
+    if sum([len(rl) for rl in records]) > 0:
+        for rl in records:
+            if len(rl) > 0:
+                print(len(rl))
+                output.append([r for r in rl])
+        return jsonify(output)
+    else:
+        return jsonify("NULL")
+    # Solution provided by Alex & Trent data solutions inc. 
+
 
     return jsonify(records)
+
+
+    recommended_list = [intersection_list, intersection_list2, intersection_list3]
+    print("recommended_list", recommended_list, "\n\n")
+
+    #if len(intersection_list) + len(intersection_list2) + len(intersection_list3) == 3:
+    #    for record_list in recommended_list:
+    #        for i in range(len(record_list)):
+    #                return jsonify(record_list[i])
+
+    #for rl in recommended_list:
+    #    print(rl)
+    
+    results_strains_list = []
+    if sum([len(rl) for rl in recommended_list]) > 0:
+    #if len(intersection_list) + len(intersection_list2) + len(intersection_list3) > 0:
+        for rl in recommended_list:
+            if len(rl) > 0:
+                print(len(rl))
+                results_strains_list.append([r for r in rl])
+                #for i in range(len(rl)):
+        return jsonify(str(results_strains_list))
+    else:
+        return jsonify("According to Alex this means the code is FUBAR")
+
+
+
 
 
 
     # return jsonify(return_list)
 
-    # return jsonify(return_list) #> expected answer
 
-"""
+        # Create an empty dictionary to return
+        results = {}
+
+        # Loop through all IDs recieved from the predict function in search()
+        for x,index in zip(ids, range(0,size)):
+            # Create a base result with {"id":"x"} where x is the current strain index
+            sub_result = {"id":str(x)}
+            # Query the database for the strain index and add it to the dict
+            sub_result['data'] = Strain.query.filter(Strain.index==int(x)).first().__repr__()
+            # Add the sub_result to the main results dictionary
+            results['{}'.format(index)] = sub_result
+
+        # Return the results in a dictionary
+    
+    
+    data = numpy.array(vector)
+    request_series = pd.Series(data, index=columns)
+    distance, neighbors = nn.kneighbors([request_series])
+
+    list_strains = []
+    for points in neighbors:
+        for index in points:
+            list_strains.append(index)
+
+    return_list = [
+        int(val)
+        for val in list_strains
+    ]
+
     records = []
-
-    for val in list_strains:
+    
+    for val in return_list[:n]:
         records.append(parse_records(Cabinet.query.filter(Cabinet.model_id == val).all()))
 
+    if sum([len(rl)])
+
     return jsonify(records)
-"""
-
-    # return jsonify(result)
-    
-"""
-    # def id_dictionary():
-    
-    
-    #     query_list
-    
-    # dictionary = []
-    
-    # for val in list_strains:
-    #      dictionary.append.parse_records(Cabinet.query.filter(Cabinet.model_id == val).all())
-    #  return jsonify(list_strains)
-    
-    # print('Hello something world?')
-    
-    # return jsonify(result)
-
-
-@APP.route('/refresh')
-def refresh():
-    # Pull fresh data from Open AQ and replace existing data.
-    DB.drop_all()
-    DB.create_all()
-    for i in value_list(city='Los Angeles', parameter='pm25'):
-        query = Record(datetime = i[0], value = i[1])
-        DB.session.add(query)
-        DB.session.commit()
-    return render_template("refresh.html")
-    # return 'Refresh route sanity'
-
-def value_list(city='Los Angeles', parameter='pm25'):
-
-    # list of (utc_datetime, value) tuples
-    status, body = api.measurements(city='Los Angeles', parameter='pm25')
-
-    query_list = []
-
-    for i in body['results']:
-        i['date']['utc']
-        utc_time = i['date']['utc']
-        value = i['value']
-        query_list.append(tuple((utc_time,value)))
-
-    return query_list
-
-
-# def model_id_list():
-#     for val in list_strains:
-#         value = val[1]
-
-#     return value
-"""
+    """

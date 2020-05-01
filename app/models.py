@@ -61,6 +61,23 @@ class Cabinet(db.Model):
     flavor_profile = db.Column(db.String)
     strain_description = db.Column(db.String)
     model_id = db.Column(db.Integer)
+    
+    def __repr__(self):
+        output = {
+            'strain_id':self.strain_id,
+            'strain_name':self.strain_name,
+            'strain_type':self.strain_type,
+            'strain_rating':self.strain_rating,
+            'effects_profile':self.effects_profile,
+            'flavor_profile':self.flavor_profile,
+            'strain_description':self.strain_description,
+            'model_id':self.model_id,
+        }
+        return output
+
+    def __str__(self):
+        return self.__repr__()
+    
 
 def parse_records(database_records):
     """
