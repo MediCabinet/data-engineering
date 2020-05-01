@@ -2,3 +2,4 @@
 Pipfile
 Pipfile.lock
 migrations
+rec_function.py
