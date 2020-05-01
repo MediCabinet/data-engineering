@@ -244,30 +244,25 @@ def recommender():
     data = numpy.array(vector)
     request_series = pd.Series(data, index=columns)
     distance, neighbors = nn.kneighbors([request_series])
-
-    # list_strains = []
-    # for points in neighbors:
-    #     for index in points:
-    #         list_strains.append(index)
-    # result = [
-    #     {"id": str(val)}
-    #     for val in list_strains[:n]
-    # ]
-    # return jsonify(result)
     list_strains = []
     for points in neighbors:
         for index in points:
             list_strains.append(index)
-    result = [
-        {"id": str(val)}
-        for val in list_strains[:n]
-    ]
     return_list = [
         int(val)
-        for val in list_strains[:n]
+        for val in list_strains
     ]
     records = []
-    for val in return_list:
+
+    for val in return_list[:n]:
         records.append(parse_records(
             Cabinet.query.filter(Cabinet.model_id == val).all()))
-    return jsonify(records)
+    output = []
+    if sum([len(rl) for rl in records]) > 0:
+        for rl in records:
+            if len(rl) > 0:
+                print(len(rl))
+                output.append([r for r in rl])
+        return jsonify(output)
+    else:
+        return jsonify("According to Alex this means the code is FUBAR")
