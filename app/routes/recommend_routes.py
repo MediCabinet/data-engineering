@@ -167,7 +167,7 @@ def recommend():
 
 
 # # /recommend clone to test for-loop return error when deployed to heroku
-@recommend_routes.route("/testing")#, methods=['GET', 'POST'])
+@recommend_routes.route("/testing", methods=['GET', 'POST'])
 def recommender():
     """
     creates list with top n recommended strains.
