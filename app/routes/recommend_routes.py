@@ -147,23 +147,6 @@ def recommend():
         for val in list_strains[:n]
     ]
     return jsonify(result)
-    # list_strains = []
-    # for points in neighbors:
-    #     for index in points:
-    #         list_strains.append(index)
-    # result = [
-    #     {"id": str(val)}
-    #     for val in list_strains[:n]
-    # ]
-    # return_list = [
-    #     int(val)
-    #     for val in list_strains[:n]
-    # ]
-    # records = []
-    # for val in return_list:
-    #     records.append(parse_records(
-    #         Cabinet.query.filter(Cabinet.model_id == val).all()))
-    # return jsonify(records)
 
 
 # # /recommend clone to test for-loop return error when deployed to heroku
@@ -245,15 +228,6 @@ def recommender():
     request_series = pd.Series(data, index=columns)
     distance, neighbors = nn.kneighbors([request_series])
 
-    # list_strains = []
-    # for points in neighbors:
-    #     for index in points:
-    #         list_strains.append(index)
-    # result = [
-    #     {"id": str(val)}
-    #     for val in list_strains[:n]
-    # ]
-    # return jsonify(result)
     list_strains = []
     for points in neighbors:
         for index in points:
@@ -262,35 +236,6 @@ def recommender():
         {"id": str(val)}
         for val in list_strains[:n]
     ]
-    # return_list = [
-    #     int(val)
-    #     for val in list_strains[:n]
-    # ]
-    # records = []
-    # for val in return_list:
-    #     records.append(parse_records(
-    #         Cabinet.query.filter(Cabinet.model_id == val).all()))
-    # return jsonify(result, records)
-
-    # return_list = [
-    #     int(val)
-    #     for val in list_strains
-    # ]
-    # records = []
-    # # for val in return_list[:n]:
-    # records.append(parse_records(Cabinet.query.filter(
-    #     Cabinet.model_id.in_(return_list)).all()))
-    # output = []
-    # if sum([len(rl) for rl in records]) > 0:
-    #     for rl in records:
-    #         if len(rl) > 0:
-    #             print(len(rl))
-    #             output.append([r for r in rl])
-    #     return jsonify(output)
-    # else:
-    #     return jsonify("NULL")
-
-
     return_list = [
         int(val)
         for val in list_strains
