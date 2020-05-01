@@ -57,7 +57,7 @@ def cabinet():
     cabinet_response = parse_records(db_cabinet)
     return jsonify(cabinet_response)
 
-
+# functional /recommend endpoint as deployed on heroku
 @recommend_routes.route("/recommend", methods=['GET', 'POST'])
 def recommend():
     """
@@ -138,6 +138,15 @@ def recommend():
     request_series = pd.Series(data, index=columns)
     distance, neighbors = nn.kneighbors([request_series])
 
+    list_strains = []
+    for points in neighbors:
+        for index in points:
+            list_strains.append(index)
+    result = [
+        {"id": str(val)}
+        for val in list_strains[:n]
+    ]
+    return jsonify(result)
     # list_strains = []
     # for points in neighbors:
     #     for index in points:
@@ -146,6 +155,105 @@ def recommend():
     #     {"id": str(val)}
     #     for val in list_strains[:n]
     # ]
+    # return_list = [
+    #     int(val)
+    #     for val in list_strains[:n]
+    # ]
+    # records = []
+    # for val in return_list:
+    #     records.append(parse_records(
+    #         Cabinet.query.filter(Cabinet.model_id == val).all()))
+    # return jsonify(records)
+
+
+# /recommend clone to test for-loop return error when deployed to heroku
+@recommend_routes.route("/test", methods=['GET', 'POST'])
+def recommend():
+    """
+    creates list with top n recommended strains.
+
+    Paramaters
+    __________
+
+    request: dictionary (json object)
+        list of user's desired effects listed in order of user ranking.
+        {
+            "effects":[],
+            "negatives":[],
+            "ailments":[]
+        }
+    n: int, optional
+        number of recommendations to return, default 10.
+
+    Returns
+    _______
+
+    list_strains: python list of n recommended strains.
+    """
+    desired_dict = request.json
+    n = 10
+    effects, negatives, ailments = (
+        desired_dict.get("effects"),
+        desired_dict.get("negatives"),
+        desired_dict.get("ailments")
+    )
+    effects = [effect.lower() for effect in effects]
+    negatives = [negative.lower() for negative in negatives]
+    ailments = [ailment.lower() for ailment in ailments]
+
+    for index, effect in enumerate(effects):
+       if effect in columns:
+           effects[index] = columns.index(effect)
+
+    for index, negative in enumerate(negatives):
+       if negative in columns:
+           negatives[index] = columns.index(negative)
+
+    for index, ailment in enumerate(ailments):
+       if ailment in columns:
+           ailments[index] = columns.index(ailment)
+
+    vector = [
+        0 for _ in range(len(columns))
+    ]
+
+    weight = 100
+
+    for index in effects:
+       if isinstance(index, int):
+           vector[index] = weight
+           weight *= .8
+           weight = int(weight)
+
+    weight = 100
+
+    for index in negatives:
+       if isinstance(index, int):
+           vector[index] = weight
+           weight *= .8
+           weight = int(weight)
+
+    weight = 100
+
+    for index in ailments:
+       if isinstance(index, int):
+           vector[index] = weight
+           weight *= .8
+           weight = int(weight)
+
+    data = numpy.array(vector)
+    request_series = pd.Series(data, index=columns)
+    distance, neighbors = nn.kneighbors([request_series])
+
+    # list_strains = []
+    # for points in neighbors:
+    #     for index in points:
+    #         list_strains.append(index)
+    # result = [
+    #     {"id": str(val)}
+    #     for val in list_strains[:n]
+    # ]
+    # return jsonify(result)
     list_strains = []
     for points in neighbors:
         for index in points:
@@ -163,4 +271,3 @@ def recommend():
         records.append(parse_records(
             Cabinet.query.filter(Cabinet.model_id == val).all()))
     return jsonify(result, records)
-
