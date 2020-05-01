@@ -31,14 +31,14 @@ migrate = Migrate()
 #     dry_eyes = db.Column(db.Integer)
 #     dizzy = db.Column(db.Integer)
 #     anxious = db.Column(db.Integer)
-    
+
 
 # class Strain(db.Model):
 #     strain_id = db.Column(db.Integer, primary_key=True)
 #     name = db.Column(db.String)
 #     type = db.Column(db.String)
 #     rating = db.Column(db.Integer)
-    
+
 
 # class Template(db.Model):
 #     """Template database class"""
@@ -61,6 +61,7 @@ class Cabinet(db.Model):
     flavor_profile = db.Column(db.String)
     strain_description = db.Column(db.String)
     model_id = db.Column(db.Integer)
+
 
 def parse_records(database_records):
     """

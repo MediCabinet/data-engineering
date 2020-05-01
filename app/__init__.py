@@ -4,7 +4,7 @@
 import os
 from dotenv import load_dotenv
 from flask import Flask
-from flask_cors import CORS
+#from flask_cors import CORS
 
 # Import routes
 from app.models import db, migrate
@@ -18,7 +18,7 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 
 def create_app():
     app = Flask(__name__)
-    CORS(app)
+    #CORS(app)
 
     #app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////mnt/c/Github/MediCabinet/data-engineering/database.sqlite3"
     # configure the database
@@ -32,6 +32,7 @@ def create_app():
     app.register_blueprint(recommend_routes)
 
     return app
+
 
 if __name__ == "__main__":
     my_app = create_app()
