@@ -58,14 +58,14 @@ def cabinet():
     return jsonify(cabinet_response)
 
 
-@recommend_routes.route("/recommend", methods = ["GET", "POST"])
-def recommend():
+@recommend_routes.route("/recommend", methods=['GET', 'POST'])
+def recommender():
     """
     creates list with top n recommended strains.
-    
+
     Paramaters
     __________
-    
+
     request: dictionary (json object)
         list of user's desired effects listed in order of user ranking.
         {
@@ -75,11 +75,124 @@ def recommend():
         }
     n: int, optional
         number of recommendations to return, default 10.
-        
-    Returns 
+
+    Returns
     _______
-    
+
     list_strains: python list of n recommended strains.
+    """
+    desired_dict = request.json
+    n = 10
+    effects, negatives, ailments = (
+        desired_dict.get("effects"),
+        desired_dict.get("negatives"),
+        desired_dict.get("ailments")
+    )
+    effects = [effect.lower() for effect in effects]
+    negatives = [negative.lower() for negative in negatives]
+    ailments = [ailment.lower() for ailment in ailments]
+
+    for index, effect in enumerate(effects):
+       if effect in columns:
+           effects[index] = columns.index(effect)
+
+    for index, negative in enumerate(negatives):
+       if negative in columns:
+           negatives[index] = columns.index(negative)
+
+    for index, ailment in enumerate(ailments):
+       if ailment in columns:
+           ailments[index] = columns.index(ailment)
+
+    vector = [
+        0 for _ in range(len(columns))
+    ]
+
+    weight = 100
+
+    for index in effects:
+       if isinstance(index, int):
+           vector[index] = weight
+           weight *= .8
+           weight = int(weight)
+
+    weight = 100
+
+    for index in negatives:
+       if isinstance(index, int):
+           vector[index] = weight
+           weight *= .8
+           weight = int(weight)
+
+    weight = 100
+
+    for index in ailments:
+       if isinstance(index, int):
+           vector[index] = weight
+           weight *= .8
+           weight = int(weight)
+
+    data = numpy.array(vector)
+    request_series = pd.Series(data, index=columns)
+    distance, neighbors = nn.kneighbors([request_series])
+    
+    list_strains = []
+    for points in neighbors:
+        for index in points:
+            list_strains.append(index)
+
+    return_list = [
+        str(val)
+        for val in list_strains[:n]
+    ]
+    
+    records = parse_records(Cabinet.query.filter(Cabinet.model_id.in_(return_list)).all())
+    
+    return jsonify(records)
+   
+
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     """
     desired_dict = request.json
     n=5
@@ -141,15 +254,23 @@ def recommend():
         for index in points:
             list_strains.append(index)
 
+    return list_strains[:n]
+
+recommended = strains_df.iloc[list_strains].head(n)
+result = {
+    "model_id": recommended.to_dict("records")
+}
+
+return result
+
+
     return_list = [
-        int(val)
-        for val in list_strains
-    ]
-    
+            int(val)
+            for val in list_strains
+        ]
     records = []
-    
-    for val in return_list[:n]:
-        records.append(parse_records(Cabinet.query.filter(Cabinet.model_id == val).all()))
+    # for val in return_list[:n]:
+    records.append(parse_records(Cabinet.query.filter(Cabinet.model_id.in_(return_list)).all()))
     output = []
     if sum([len(rl) for rl in records]) > 0:
         for rl in records:
@@ -163,7 +284,7 @@ def recommend():
     
     # return jsonify(records)
     
-    """
+    
         def get_strain(ids, size):
         # Create an empty dictionary to return
         results = {}
@@ -179,13 +300,8 @@ def recommend():
 
         # Return the results in a dictionary
         return results
-    """
-    
-    
-    
-    
-    
-    """
+
+
     
     records = parse_records(Cabinet.query.filter(Cabinet.model_id == (2,3)))
 

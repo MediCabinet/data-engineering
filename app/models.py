@@ -54,30 +54,14 @@ migrate = Migrate()
 class Cabinet(db.Model):
     """Table database class"""
     strain_id = db.Column(db.Integer, primary_key=True)
-    strain_name = db.Column(db.String)
-    strain_type = db.Column(db.String)
-    strain_rating = db.Column(db.String)
-    effects_profile = db.Column(db.String)
-    flavor_profile = db.Column(db.String)
-    strain_description = db.Column(db.String)
-    model_id = db.Column(db.Integer)
-    
-    def __repr__(self):
-        output = {
-            'strain_id':self.strain_id,
-            'strain_name':self.strain_name,
-            'strain_type':self.strain_type,
-            'strain_rating':self.strain_rating,
-            'effects_profile':self.effects_profile,
-            'flavor_profile':self.flavor_profile,
-            'strain_description':self.strain_description,
-            'model_id':self.model_id,
-        }
-        return output
+    strain_name = db.Column(db.String, nullable=False)
+    strain_type = db.Column(db.String, nullable=True)
+    strain_rating = db.Column(db.String, nullable=True)
+    effects_profile = db.Column(db.String, nullable=True)
+    flavor_profile = db.Column(db.String, nullable=True)
+    strain_description = db.Column(db.String, nullable=True)
+    model_id = db.Column(db.String, nullable=True)
 
-    def __str__(self):
-        return self.__repr__()
-    
 
 def parse_records(database_records):
     """
