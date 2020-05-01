@@ -149,15 +149,13 @@ def recommend():
     return jsonify(result)
 
 
-# # /recommend clone to test for-loop return error when deployed to heroku
+# /recommend clone to test for-loop return error when deployed to heroku
 @recommend_routes.route("/testing", methods=['GET', 'POST'])
 def recommender():
     """
     creates list with top n recommended strains.
-
     Paramaters
     __________
-
     request: dictionary (json object)
         list of user's desired effects listed in order of user ranking.
         {
@@ -167,10 +165,8 @@ def recommender():
         }
     n: int, optional
         number of recommendations to return, default 10.
-
     Returns
     _______
-
     list_strains: python list of n recommended strains.
     """
     desired_dict = request.json
@@ -180,54 +176,43 @@ def recommender():
         desired_dict.get("negatives"),
         desired_dict.get("ailments")
     )
+
     effects = [effect.lower() for effect in effects]
     negatives = [negative.lower() for negative in negatives]
     ailments = [ailment.lower() for ailment in ailments]
-
     for index, effect in enumerate(effects):
        if effect in columns:
            effects[index] = columns.index(effect)
-
     for index, negative in enumerate(negatives):
        if negative in columns:
            negatives[index] = columns.index(negative)
-
     for index, ailment in enumerate(ailments):
        if ailment in columns:
            ailments[index] = columns.index(ailment)
-
     vector = [
         0 for _ in range(len(columns))
     ]
-
     weight = 100
-
     for index in effects:
        if isinstance(index, int):
            vector[index] = weight
            weight *= .8
            weight = int(weight)
-
     weight = 100
-
     for index in negatives:
        if isinstance(index, int):
            vector[index] = weight
            weight *= .8
            weight = int(weight)
-
     weight = 100
-
     for index in ailments:
        if isinstance(index, int):
            vector[index] = weight
            weight *= .8
            weight = int(weight)
-
     data = numpy.array(vector)
     request_series = pd.Series(data, index=columns)
     distance, neighbors = nn.kneighbors([request_series])
-
     list_strains = []
     for points in neighbors:
         for index in points:
@@ -237,10 +222,14 @@ def recommender():
         for val in list_strains[:n]
     ]
     return_list = [
-        int(val)
-        for val in list_strains
+        str(val)
+        for val in list_strains[:n]
     ]
-    records = parse_records(Cabinet.query.filter(Cabinet.model_id.in_(return_list)).all())
-    
+
+    records = parse_records(Cabinet.query.filter(
+        Cabinet.model_id.in_(return_list)).all())
+
     return jsonify(records)
+
+
 
