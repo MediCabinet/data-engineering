@@ -167,7 +167,7 @@ def recommend():
 
 
 # # /recommend clone to test for-loop return error when deployed to heroku
-@recommend_routes.route("/testing", methods=['GET', 'POST'])
+@recommend_routes.route("/testing")#, methods=['GET', 'POST'])
 def recommender():
     """
     creates list with top n recommended strains.
@@ -270,4 +270,4 @@ def recommender():
     for val in return_list:
         records.append(parse_records(
             Cabinet.query.filter(Cabinet.model_id == val).all()))
-    return jsonify(result, records)
+    return jsonify(records)
